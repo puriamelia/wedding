@@ -86,6 +86,8 @@ if (isset($_GET['act'])) {
         include("./content/submit_ulasan.php");
     } else if ($act == 'keranjang') {
         include("./content/halaman_keranjang.php");
+    } else if ($act == 'invoice') {
+        include("./content/profile/invoice.php");
     }
 } else {
     include("./content/halaman_keranjang.php");

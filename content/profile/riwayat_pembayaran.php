@@ -19,6 +19,7 @@ $result = mysqli_query($conn, $sql);
                         <th>Kode Pembayaran</th>
                         <th>Nominal</th>
                         <th>Bukti Pembayaran</th>
+                        <th>Invoice</th>
                         <th>Status Pembayaran</th>
                         <th>Tanggal</th>
                         <th>Catatan</th>
@@ -36,6 +37,14 @@ $result = mysqli_query($conn, $sql);
                                 <?php else: ?>
                                     Tidak Ada
                                 <?php endif; ?>
+                            </td>
+                            <td>
+                                <a href="index.php?menu=profile&act=invoice&id=<?= $row['id'] ?>" class="">Lihat
+                                    Invoice</a>
+
+
+
+
                             </td>
                             <td>
                                 <span
