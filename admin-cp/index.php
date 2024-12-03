@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 session_start();
-// session_destroy();
+
 include_once "./../koneksi/db.php";
 include_once "./../function/global.php";
 $role = $_SESSION['role'];
