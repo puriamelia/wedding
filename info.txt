@@ -1,0 +1,19 @@
+Bootstrap   =   5.3
+php         = 7.4
+mysql       = 5.7
+
+
+rekomendasi produk unggulan
+kategori muncul per produk per toko
+pemesanan 
+pembayaran
+rating
+review 
+toko
+  
+
+  konfirmasi pembayaran 
+  - catatan pembayaran
+  - catatan alamat
+  
+   nnti di user adminnya yang ngatur iklan ini aja

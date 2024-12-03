@@ -1,0 +1,256 @@
+/* Gaya untuk overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+/* Gaya untuk kotak popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+}
+
+/* Tombol tutup */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Gaya untuk input pencarian */
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Gaya untuk tombol pencarian */
+.search-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-btn:hover {
+  background-color: #0056b3;
+}
+
+
+.carousel-item img {
+  height: 300px; /* Atur tinggi sesuai kebutuhan */
+  object-fit: cover; /* Ini memastikan gambar tidak terdistorsi */
+}
+.start-100 {
+  left: 0;
+}
+a {
+  text-decoration-line: none;
+}
+.custom-hr {
+  border: none; /* Menghapus border default */
+  height: 5px; /* Menentukan ketebalan garis */
+  background-color: #ab7665; /* Mengatur warna latar belakang */
+  margin: 20px auto; /* Menjaga jarak di atas dan bawah, dan mengatur garis agar berada di tengah */
+  width: 10%; /* Mengatur lebar garis */
+}
+
+.text-header {
+  color: #ab7665;
+}
+.link {
+  color: #ab7665; /* Warna link */
+  font-weight: bold; /* Huruf tebal */
+  text-decoration: none; /* Menghilangkan garis bawah */
+}
+
+/* Hover effect */
+.link:hover {
+  color: #c5765c; /* Warna link */
+
+  text-decoration: underline; /* Menambahkan garis bawah saat hover */
+}
+.btn-outline-pink {
+  color: #c94f84;
+  border-color: #c94f84;
+}
+.btn-outline-pink:hover {
+  background-color: #c94f84;
+  color: #fff;
+}
+
+.floating-nav {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between icons */
+  z-index: 1000;
+}
+.nav-item {
+  background-color: #cfa597; /* Background color */
+  color: white; /* Icon color */
+  border-radius: 50%;
+  width: 50px; /* Icon size */
+  height: 50px; /* Icon size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for shadow */
+  position: relative; /* To position tooltip */
+  box-shadow: 4px 4px 4px #ffedf5; /* Initial shadow */
+}
+
+.nav-item:hover {
+  background-color: #ab7665; /* Darker shade on hover */
+}
+
+.nav-item:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%; /* Align vertically with the icon */
+  left: -120%; /* Position to the left of the icon */
+  transform: translateY(-50%); /* Center the tooltip vertically */
+  background-color: #333; /* Tooltip background */
+  color: white; /* Tooltip text color */
+  padding: 5px 10px; /* Tooltip padding */
+  border-radius: 5px; /* Rounded corners */
+  white-space: nowrap; /* Prevent text wrapping */
+  opacity: 1; /* Fully visible */
+  transition: opacity 0.3s;
+}
+
+
+.nav-item::after {
+  content: "";
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s;
+}
+
+/* Styling untuk container yang bisa di-scroll */
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth; /* Smooth scroll saat tombol navigasi digunakan */
+  gap: 20px; /* Jarak antar kategori */
+  padding: 10px 0;
+}
+
+/* Menghapus scrollbar default */
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-container {
+  -ms-overflow-style: none; /* Internet Explorer/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Styling item kategori */
+.category-item {
+  min-width: 200px; /* Lebar minimal setiap item */
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Optional: Button navigasi kiri dan kanan */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.scroll-left {
+  left: 10px;
+}
+
+.scroll-right {
+  right: 10px;
+}
+
+.tombol {
+  background-color: #ab7665; /* Warna coklat */
+  color: #fff; /* Warna putih untuk teks */
+  border: none;
+  padding: 8px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.tombol:hover {
+  background-color: #996652; /* Warna coklat yang lebih gelap saat dihover */
+}
+
+.paragraph {
+  color: #ab7665;
+  text-align: justify;
+}
+
+.card-img-top {
+  height: 200px; /* Adjust the height as needed */
+  object-fit: cover;
+}
+
+.large-checkbox {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px;
+  background-color: #dfbcb0;
+
+  /* border: 2px solid #ab7665;
+  border-radius: 5px;
+  margin-right: 10px; Adjust the margin as needed */
+}
+
+.large-checkbox:checked {
+  background-color: #ab7665;
+}
+
+#flatpickr {
+  /* width: 150px; */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+  margin-bottom: 10px;
+}
+
+/* Gaya saat input tanggal difokuskan */
+#flatpickr:focus {
+  border-color: #007bff; /* Warna biru saat fokus */
+  outline: none;
+}

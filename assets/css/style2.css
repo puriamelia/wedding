@@ -1,0 +1,228 @@
+/* Pengaturan gambar carousel */
+.carousel-item img {
+  height: 300px; /* Atur tinggi sesuai kebutuhan */
+  object-fit: cover; /* Ini memastikan gambar tidak terdistorsi */
+  border-radius: 10px; /* Sudut gambar lebih halus */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Bayangan lembut pada gambar */
+}
+
+/* Menghilangkan garis bawah di semua link */
+a {
+  text-decoration: none;
+}
+
+/* Gaya garis pemisah */
+.custom-hr {
+  border: none;
+  height: 4px;
+  background-color: #b1a7a6; /* Warna abu-abu netral yang lebih lembut */
+  margin: 20px auto;
+  width: 20%; /* Lebih lebar untuk tampilan yang lebih elegan */
+  border-radius: 2px;
+}
+
+/* Teks header */
+.text-header {
+  color: #3a3a3a; /* Warna abu-abu gelap untuk kesan elegan */
+  font-family: "Italianno", cursive;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Styling link */
+.link {
+  color: #6c4f4a; /* Warna coklat modern yang lebih lembut */
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease; /* Efek transisi */
+}
+
+/* Efek hover pada link */
+.link:hover {
+  color: #7d5b53; /* Warna lebih gelap saat hover */
+  text-decoration: underline;
+  transform: scale(1.05); /* Efek zoom saat hover */
+}
+
+/* Styling untuk button outline */
+.btn-outline-pink {
+  color: #f1a7a3;
+  border-color: #f1a7a3;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-pink:hover {
+  background-color: #f1a7a3;
+  color: #fff;
+}
+
+/* Navigasi floating */
+.floating-nav {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.nav-item {
+  background-color: #c7a3a0; /* Warna pastel coklat yang lembut */
+  color: white;
+  border-radius: 50%;
+  width: 60px; /* Ukuran lebih besar untuk keterbacaan */
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, box-shadow 0.3s ease;
+  position: relative;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Shadow lembut */
+}
+
+.nav-item:hover {
+  background-color: #9d7f7a; /* Warna lebih gelap saat hover */
+  transform: scale(1.1); /* Menambah efek zoom */
+}
+
+.nav-item:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  left: -120%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.nav-item::after {
+  content: "";
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Styling untuk container scrollable kategori */
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding: 10px 0;
+  margin: 20px 0;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Item kategori dalam scroll */
+.category-item {
+  min-width: 250px;
+  flex-shrink: 0;
+  text-align: center;
+  background-color: #f9f1ec; /* Warna krem muda */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Tombol navigasi kiri dan kanan */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 50%;
+}
+
+.scroll-left {
+  left: 10px;
+}
+
+.scroll-right {
+  right: 10px;
+}
+
+/* Tombol utama */
+.tombol {
+  background-color: #7d5b53; /* Warna coklat lebih gelap */
+  color: #fff;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.tombol:hover {
+  background-color: #5e4a42;
+  transform: scale(1.05);
+}
+
+/* Styling paragraf */
+.paragraph {
+  color: #6c4f4a;
+  text-align: justify;
+  line-height: 1.6;
+}
+
+/* Card gambar */
+.card-img-top {
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Checkbox besar */
+.large-checkbox {
+  width: 50px;
+  height: 50px;
+  background-color: #d8c1b0;
+  border-radius: 10px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.large-checkbox:checked {
+  background-color: #ab7665; /* Warna lebih elegan saat terpilih */
+}
+
+/* Styling untuk input tanggal */
+#flatpickr {
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #d1c7c3; /* Warna abu-abu lembut */
+  border-radius: 8px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+#flatpickr:focus {
+  border-color: #007bff; /* Warna biru lembut saat fokus */
+  outline: none;
+}
