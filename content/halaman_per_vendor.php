@@ -31,7 +31,7 @@ $vendor = mysqli_fetch_assoc($q);
                         <p class="rating">Rating: ★★★★☆</p>
                         <a href="<?= $vendor['url_lokasi'] ?>"> <button class="tombol"><i class="fa fa-map"></i>
                                 Lokasi</button></a>
-                        <button class="tombol"><i class="fa fa-calendar"></i> Jadwal</button>
+                        
                     </div>
                     <div class="col-lg-8 col-md-6 col-sm-12">
                         <p class="paragraph"><?= $vendor['description'] ?></p>
