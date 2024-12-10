@@ -1,6 +1,22 @@
+<style>
+    /* Agar formulir berada di tengah halaman */
+    .center-form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* height: 100vh; */
+    }
+
+    .center-form {
+        max-width: 500px;
+        width: 100%;
+    }
+</style>
+
 <?php
 
 $id = dekrip(mysqli_escape_string($conn, $_GET['produkid']));
+// Ambil semua diskusi terkait produk
 
 $q = mysqli_query($conn, "SELECT
                             p.product_id,
@@ -61,6 +77,27 @@ if ($ratin_vendor > 5) {
     $ratin_vendor = 5; // Set ke 5 jika lebih dari 5
 } elseif ($ratin_vendor < 1) {
     $ratin_vendor = 1; // Set ke 1 jika rating kurang dari 1
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data dari formulir
+    $id_produk = $id;
+    $user_id = mysqli_escape_string($conn, $_POST['user_id']);
+    $user_name = mysqli_escape_string($conn, $_POST['user_name']);
+    $diskusi = mysqli_escape_string($conn, $_POST['diskusi']);
+
+    // Perintah SQL untuk menyimpan data
+    $query = "INSERT INTO diskusi (user_id, id_produk, user_name, diskusi) 
+              VALUES ('$user_id', '$id_produk', '$user_name', '$diskusi')";
+
+    $id_prod = enkrip($produk['product_id']);
+    if (mysqli_query($conn, $query)) {
+        pindah_halaman("index.php?menu=produk&nama_produk={$produk['product_name']}&produkid={$id_prod}");
+    } else {
+        pindah_halaman("index.php?menu=produk&nama_produk={$produk['product_name']}&produkid={$id_prod}");
+    }
+    // exit();
 }
 
 
@@ -281,69 +318,182 @@ if ($ratin_vendor > 5) {
     </div>
 </section>
 <div class="container section-title">
-    <h2 class="text-center text-header mt-3">Ulasan Produk <?= $produk['product_name'] ?></h2>
+    <h2 class="text-center text-header mt-3">Detail Produk: <?= $produk['product_name'] ?></h2>
     <hr style="border: none; height: 5px; background-color: #AB7665; margin: 20px auto; width: 8%;">
 </div>
+
 <div class="container mt-5 mb-5">
-    <?php
-    // Query untuk mengambil ulasan berdasarkan id_produk
-    $query = mysqli_query($conn, "SELECT 
-                                    ulasan.ulasan, 
-                                    ulasan.rating, 
-                                    users.nama AS user_name 
-                                FROM 
-                                    ulasan 
-                                INNER JOIN 
-                                    users ON ulasan.id_user = users.user_id
-                                WHERE 
-                                    ulasan.id_produk = '$id'
-                                ORDER BY 
-                                    id_ulasan DESC");
+    <!-- Tab Navigasi -->
+    <ul class="nav nav-tabs " id="productTabs" role="tablist">
+        <li class=" border" role="presentation">
+            <button class="tombol nav-link active" id="ulasan-tab" data-bs-toggle="tab" data-bs-target="#ulasan"
+                type="button" role="tab" aria-controls="ulasan" aria-selected="true">Ulasan Produk</button>
+        </li>
+        <li class=" border" role="presentation">
+            <button class="tombol nav-link" id="diskusi-tab" data-bs-toggle="tab" data-bs-target="#diskusi"
+                type="button" role="tab" aria-controls="diskusi" aria-selected="false">Diskusi Produk</button>
+        </li>
+    </ul>
 
-    // Mengecek jika ada ulasan
-    if (mysqli_num_rows($query) > 0) {
-        // Menampilkan setiap ulasan
-        while ($row = mysqli_fetch_assoc($query)) {
-            $user_name = $row['user_name'];
-            $ulasan_text = $row['ulasan'];
-            $rating_pro = $row['rating'];
+    <div class="tab-content mt-3">
+        <!-- Bagian Ulasan Produk -->
+        <div class="tab-pane fade show active" id="ulasan" role="tabpanel" aria-labelledby="ulasan-tab">
+            <?php
+            // Query untuk mengambil ulasan berdasarkan id_produk
+            $query = mysqli_query($conn, "SELECT 
+                                            ulasan.ulasan, 
+                                            ulasan.rating, 
+                                            users.nama AS user_name 
+                                        FROM 
+                                            ulasan 
+                                        INNER JOIN 
+                                            users ON ulasan.id_user = users.user_id
+                                        WHERE 
+                                            ulasan.id_produk = '$id'
+                                        ORDER BY 
+                                            id_ulasan DESC");
 
-            // Membatasi rating antara 0 dan 5
-            if ($rating_pro > 5) {
-                $rating_pro = 5; // Set ke 5 jika lebih dari 5
-            } elseif ($rating_pro < 1) {
-                $rating_pro = 0; // Set ke 1 jika rating kurang dari 1
-            }
+            if (mysqli_num_rows($query) > 0) {
+                while ($row = mysqli_fetch_assoc($query)) {
+                    $user_name = $row['user_name'];
+                    $ulasan_text = $row['ulasan'];
+                    $rating_pro = $row['rating'];
 
-            // Menentukan jumlah bintang berdasarkan rating
-            $full_stars = floor($rating_pro);
-            $empty_stars = 5 - $full_stars;
-    ?>
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title"><?= htmlspecialchars($user_name); ?></h5>
-                    <p class="card-text"><?= htmlspecialchars($ulasan_text); ?></p>
-                    <div class="rating">
-                        <?php
-                        // Menampilkan bintang penuh dan kosong
-                        for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= $rating_pro) {
-                                echo "★"; // Tampilkan bintang penuh jika rating >= i
-                            } else {
-                                echo "☆"; // Tampilkan bintang kosong jika rating < i
-                            }
-                        }
-                        ?>
+                    if ($rating_pro > 5) {
+                        $rating_pro = 5;
+                    } elseif ($rating_pro < 1) {
+                        $rating_pro = 0;
+                    }
+
+                    $full_stars = floor($rating_pro);
+                    $empty_stars = 5 - $full_stars;
+            ?>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($user_name); ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($ulasan_text); ?></p>
+                            <div class="rating">
+                                <?php
+                                for ($i = 1; $i <= 5; $i++) {
+                                    if ($i <= $rating_pro) {
+                                        echo "★";
+                                    } else {
+                                        echo "☆";
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
                     </div>
+            <?php
+                }
+            } else {
+                echo '<div class="alert alert-warning" role="alert">
+                        Belum ada ulasan untuk produk ini. Jadilah yang pertama memberi ulasan!
+                      </div>';
+            }
+            ?>
+        </div>
+
+        <!-- Bagian Diskusi Produk -->
+        <div class="tab-pane fade" id="diskusi" role="tabpanel" aria-labelledby="diskusi-tab">
+            <div class="container mt-4">
+                <h3 class="text-center text-header mb-3">Diskusi dan Balasan Produk</h3>
+                <hr style="border: none; height: 4px; background-color: #AB7665; margin: 20px auto; width: 8%;">
+
+                <!-- Form untuk memulai Diskusi -->
+
+                <?php
+                if (isset($_SESSION['user_id'])) {
+                    $user_id = $_SESSION['user_id']; // Ganti dengan mekanisme login Anda
+                    $query = "SELECT * FROM users WHERE user_id = '$user_id'";
+                    $result = mysqli_query($conn, $query);
+
+                    $user = mysqli_fetch_assoc($result);
+
+                ?>
+                    <div class="container center-form-container">
+                        <div class="card center-form mb-4">
+                            <div class="card-header bg-success text-white text-center">
+                                <h5>Buat Diskusi Baru</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="">
+                                    <input type="hidden" name="id_produk" value="1">
+                                    <!-- Ganti dengan ID Produk sesuai konteks Anda -->
+                                    <div class="mb-3">
+                                        <label for="user_name" class="form-label">Username</label>
+                                        <input type="text" readonly class="form-control"
+                                            value='<?= htmlspecialchars($user['username']); ?>' id="user_name"
+                                            name="user_name" required>
+                                        <input type="hidden" class="form-control" value='<?= $user['user_id']; ?>'
+                                            id="user_id" name="user_id" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="diskusi" class="form-label">Tuliskan Diskusi</label>
+                                        <textarea class="form-control" id="diskusi" name="diskusi" rows="4"
+                                            required></textarea>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-success" type="submit">Mulai Diskusi</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php
+                } else {
+                    echo '<div class="alert alert-primary" role="alert">
+                        Login dulu untuk berdiskusi atau bertanya tentang produk ini
+                      </div>';
+                }
+                ?>
+
+
+                <!-- Tampilkan semua diskusi -->
+                <div class="mb-4">
+                    <?php
+                    $diskusi_query = mysqli_query($conn, "SELECT * FROM diskusi WHERE id_produk = '$id' ORDER BY date_created DESC");
+
+
+                    while ($diskusi = mysqli_fetch_assoc($diskusi_query)): ?>
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-primary text-white">
+                                <strong><?= htmlspecialchars($diskusi['user_name']); ?></strong>
+                                <small
+                                    class="float-end"><?= date('d M Y, H:i', strtotime($diskusi['date_created'])); ?></small>
+                            </div>
+                            <div class="card-body">
+                                <p><?= nl2br(htmlspecialchars($diskusi['diskusi'])); ?></p>
+                                <hr>
+                                <!-- Form untuk Balasan -->
+
+                                <div class="mt-3">
+                                    <h6>Balasan:</h6>
+                                    <?php
+                                    $balasan_query = mysqli_query($conn, "SELECT * FROM balasan WHERE diskusi_id = '{$diskusi['id']}' ORDER BY date_created ASC");
+                                    if (mysqli_num_rows($balasan_query) > 0) {
+                                        while ($balasan = mysqli_fetch_assoc($balasan_query)) {
+                                            echo '<div class="border p-2 mb-2">';
+                                            echo "<strong>" . htmlspecialchars($balasan['user_name']) . ": </strong>";
+                                            echo nl2br(htmlspecialchars($balasan['balasan']));
+                                            echo "<br><small class='text-muted'>" . date('d M Y, H:i', strtotime($balasan['date_created'])) . "</small>";
+                                            echo '</div>';
+                                        }
+                                    } else {
+                                        echo '<div class="text-muted">Belum ada balasan untuk diskusi ini.</div>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
                 </div>
+
             </div>
-    <?php
-        }
-    } else {
-        // Jika tidak ada ulasan
-        echo '<div class="alert alert-warning" role="alert">
-                Belum ada ulasan untuk produk ini. Jadilah yang pertama memberi ulasan!
-              </div>';
-    }
-    ?>
+
+
+        </div>
+    </div>
 </div>

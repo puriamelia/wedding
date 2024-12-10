@@ -16,7 +16,7 @@ $q = mysqli_query($conn, "SELECT
                             INNER JOIN products AS p ON i.produk_id = p.product_id
                             INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id 
                         WHERE
-                            k.user_id= '$user_id' and i.success='ya'
+                            k.user_id= '$user_id' and i.success='ya' and i.selesai='ya'
                         GROUP BY
                             i.id,i.produk_id,
                             i.tanggal_acara ");

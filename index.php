@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+// error_reporting(0);
 session_start();
 include_once "./koneksi/db.php";
 include_once "./function/global.php";
@@ -97,7 +97,7 @@ if (!isset($_GET['menu'])) {
     </div>
     <div class="offcanvas-body">
         <?php
-        
+
         $sql = mysqli_query($conn, "SELECT
                                     d.keranjang_id,
                                     d.produk_id,

@@ -38,11 +38,20 @@ if ($result) {
 </div>
 <div class="container mt-5 mb-5">
     <div class="row text-center">
+        <!-- Pesanan Paling Awal -->
+        <div class="col-md-3">
+            <a href="index.php?menu=profile&act=riwayat_pesanan">
+                <div>
+                    <i class="fa fa-history" style="font-size: 60px; color: #9b59b6;"></i>
+                </div>
+                <h4 class="mt-3">Riwayat Pesanan</h4>
+            </a>
+        </div>
+
         <!-- Keranjang -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="index.php?menu=profile&act=keranjang">
                 <div>
-
                     <i class="fa fa-shopping-cart" style="font-size: 60px; color: #3498db;"></i>
                 </div>
                 <h4 class="mt-3">Keranjang</h4>
@@ -50,10 +59,9 @@ if ($result) {
         </div>
 
         <!-- Pembayaran -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="index.php?menu=profile&act=riwayat_pembayaran">
                 <div>
-
                     <i class="fa fa-credit-card" style="font-size: 60px; color: #2ecc71;"></i>
                 </div>
                 <h4 class="mt-3">Riwayat Pembayaran</h4>
@@ -61,7 +69,7 @@ if ($result) {
         </div>
 
         <!-- Beri Rating -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="index.php?menu=profile&act=beri_rating">
                 <div>
                     <i class="fa fa-star" style="font-size: 60px; color: #f1c40f;"></i>
@@ -71,7 +79,6 @@ if ($result) {
         </div>
     </div>
 </div>
-
 
 <?php
 if (isset($_GET['act'])) {
@@ -88,6 +95,10 @@ if (isset($_GET['act'])) {
         include("./content/halaman_keranjang.php");
     } else if ($act == 'invoice') {
         include("./content/profile/invoice.php");
+    } else if ($act == 'riwayat_pesanan') {
+        include("./content/profile/riwayat_pesanan.php");
+    } else if ($act == 'detail_pesanan') {
+        include("./content/profile/detail_pesanan.php");
     }
 } else {
     include("./content/halaman_keranjang.php");
