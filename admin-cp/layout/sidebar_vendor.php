@@ -44,6 +44,12 @@
                     <p>Pesanan</p>
                 </a>
             </li>
+            <li class="<?php echo ($_GET['menu'] == 'diskusi') ? 'active' : ''; ?>">
+                <a href="index.php?menu=diskusi">
+                    <i class="nc-icon nc-email-85"></i>
+                    <p>Diskusi Produk</p>
+                </a>
+            </li>
 
 
         </ul>

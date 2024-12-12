@@ -208,6 +208,8 @@ $user = mysqli_fetch_assoc($user);
                   include_once("./content/produk.php");
                 } else  if ($menu == 'pesanan') {
                   include_once("./content/pesanan.php");
+                } else  if ($menu == 'diskusi') {
+                  include_once("./content/diskusi.php");
                 }
               }
             }
@@ -250,66 +252,62 @@ $user = mysqli_fetch_assoc($user);
   <script src="assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
 
 
-    <!-- Core JS Files -->
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+  <!-- Core JS Files -->
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
   <script>
-           $(document).ready(function() {
-            $('#data_pesanan').DataTable({
-                dom: 'Bfrtip', // Menampilkan tombol di atas tabel
-                buttons: [
-                    {
-                        extend: 'excelHtml5', // Ekspor ke Excel
-                        text: 'Export ke Excel' // Tombol kustom (opsional)
-                    },
-                    {
-                        extend: 'pdfHtml5', // Ekspor ke PDF
-                        text: 'Export ke PDF', // Tombol kustom (opsional)
-                        orientation: 'landscape', // Atur orientasi menjadi landscape
-                        pageSize: 'A4', // Pilih ukuran kertas (opsional)
-                        customize: function(doc) {
-                            doc.defaultStyle.fontSize = 10; // Atur ukuran font (opsional)
-                        }
-                    },
-                    {
-                        extend: 'print', // Cetak tabel
-                        text: 'Cetak Tabel' // Tombol kustom (opsional)
-                    }
-                ]
-            });
-        });
+    $(document).ready(function() {
+      $('#data_pesanan').DataTable({
+        dom: 'Bfrtip', // Menampilkan tombol di atas tabel
+        buttons: [{
+            extend: 'excelHtml5', // Ekspor ke Excel
+            text: 'Export ke Excel' // Tombol kustom (opsional)
+          },
+          {
+            extend: 'pdfHtml5', // Ekspor ke PDF
+            text: 'Export ke PDF', // Tombol kustom (opsional)
+            orientation: 'landscape', // Atur orientasi menjadi landscape
+            pageSize: 'A4', // Pilih ukuran kertas (opsional)
+            customize: function(doc) {
+              doc.defaultStyle.fontSize = 10; // Atur ukuran font (opsional)
+            }
+          },
+          {
+            extend: 'print', // Cetak tabel
+            text: 'Cetak Tabel' // Tombol kustom (opsional)
+          }
+        ]
+      });
+    });
 
-        $(document).ready(function() {
-            $('#data_produk').DataTable({
-                dom: 'Bfrtip', // Menampilkan tombol di atas tabel
-                buttons: [
-                    {
-                        extend: 'excelHtml5', // Ekspor ke Excel
-                        text: 'Export ke Excel' // Tombol kustom (opsional)
-                    },
-                    {
-                        extend: 'pdfHtml5', // Ekspor ke PDF
-                        text: 'Export ke PDF', // Tombol kustom (opsional)
-                        orientation: 'landscape', // Atur orientasi menjadi landscape
-                        pageSize: 'A4', // Pilih ukuran kertas (opsional)
-                        customize: function(doc) {
-                            doc.defaultStyle.fontSize = 10; // Atur ukuran font (opsional)
-                        }
-                    },
-                    {
-                        extend: 'print', // Cetak tabel
-                        text: 'Cetak Tabel' // Tombol kustom (opsional)
-                    }
-                ]
-            });
-        });
-
-
+    $(document).ready(function() {
+      $('#data_produk').DataTable({
+        dom: 'Bfrtip', // Menampilkan tombol di atas tabel
+        buttons: [{
+            extend: 'excelHtml5', // Ekspor ke Excel
+            text: 'Export ke Excel' // Tombol kustom (opsional)
+          },
+          {
+            extend: 'pdfHtml5', // Ekspor ke PDF
+            text: 'Export ke PDF', // Tombol kustom (opsional)
+            orientation: 'landscape', // Atur orientasi menjadi landscape
+            pageSize: 'A4', // Pilih ukuran kertas (opsional)
+            customize: function(doc) {
+              doc.defaultStyle.fontSize = 10; // Atur ukuran font (opsional)
+            }
+          },
+          {
+            extend: 'print', // Cetak tabel
+            text: 'Cetak Tabel' // Tombol kustom (opsional)
+          }
+        ]
+      });
+    });
   </script>
 </body>
 

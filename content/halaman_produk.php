@@ -79,8 +79,31 @@ if ($ratin_vendor > 5) {
     $ratin_vendor = 1; // Set ke 1 jika rating kurang dari 1
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['balasan'])) {
+    $balasan = mysqli_real_escape_string($conn, $_POST['balasan']);
+    $date_now = date('Y-m-d H:i:s');
+    $user_id = $_SESSION['user_id']; // Ganti dengan mekanisme login Anda
+    $query = "SELECT * FROM users WHERE user_id = '$user_id'";
+    $result = mysqli_query($conn, $query);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user = mysqli_fetch_assoc($result);
+
+    $id_diskusi = $_POST['id_diskusi']; // Nama vendor
+    $name = $user['username']; // Nama vendor
+    // Insert balasan ke tabel balasan
+    $insert_sql = "INSERT INTO balasan (diskusi_id, user_id, user_name, balasan, date_created, dibaca,vendor) 
+                   VALUES ('$id_diskusi', '$user_id', '$name', '$balasan', '$date_now', 'belum',null)";
+    if (mysqli_query($conn, $insert_sql)) {
+        echo "<div class='alert alert-success'>Balasan berhasil dikirim!</div>";
+    } else {
+        echo "<div class='alert alert-danger'>Gagal mengirim balasan. Silakan coba lagi.</div>";
+        echo mysqli_error($conn);
+    }
+    pindah_halaman("");
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
     // Ambil data dari formulir
     $id_produk = $id;
     $user_id = mysqli_escape_string($conn, $_POST['user_id']);
@@ -326,18 +349,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Tab Navigasi -->
     <ul class="nav nav-tabs " id="productTabs" role="tablist">
         <li class=" border" role="presentation">
-            <button class="tombol nav-link active" id="ulasan-tab" data-bs-toggle="tab" data-bs-target="#ulasan"
-                type="button" role="tab" aria-controls="ulasan" aria-selected="true">Ulasan Produk</button>
-        </li>
-        <li class=" border" role="presentation">
-            <button class="tombol nav-link" id="diskusi-tab" data-bs-toggle="tab" data-bs-target="#diskusi"
+            <button class="tombol nav-link active" id="diskusi-tab" data-bs-toggle="tab" data-bs-target="#diskusi"
                 type="button" role="tab" aria-controls="diskusi" aria-selected="false">Diskusi Produk</button>
         </li>
+        <li class=" border" role="presentation">
+            <button class="tombol nav-link " id="ulasan-tab" data-bs-toggle="tab" data-bs-target="#ulasan" type="button"
+                role="tab" aria-controls="ulasan" aria-selected="true">Ulasan Produk</button>
+        </li>
+
     </ul>
 
     <div class="tab-content mt-3">
         <!-- Bagian Ulasan Produk -->
-        <div class="tab-pane fade show active" id="ulasan" role="tabpanel" aria-labelledby="ulasan-tab">
+        <div class="tab-pane fade" id="ulasan" role="tabpanel" aria-labelledby="ulasan-tab">
             <?php
             // Query untuk mengambil ulasan berdasarkan id_produk
             $query = mysqli_query($conn, "SELECT 
@@ -396,7 +420,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Bagian Diskusi Produk -->
-        <div class="tab-pane fade" id="diskusi" role="tabpanel" aria-labelledby="diskusi-tab">
+        <div class="tab-pane fade show active" id="diskusi" role="tabpanel" aria-labelledby="diskusi-tab">
             <div class="container mt-4">
                 <h3 class="text-center text-header mb-3">Diskusi dan Balasan Produk</h3>
                 <hr style="border: none; height: 4px; background-color: #AB7665; margin: 20px auto; width: 8%;">
@@ -412,35 +436,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $user = mysqli_fetch_assoc($result);
 
                 ?>
-                    <div class="container center-form-container">
-                        <div class="card center-form mb-4">
-                            <div class="card-header bg-success text-white text-center">
-                                <h5>Buat Diskusi Baru</h5>
-                            </div>
-                            <div class="card-body">
-                                <form method="POST" action="">
-                                    <input type="hidden" name="id_produk" value="1">
-                                    <!-- Ganti dengan ID Produk sesuai konteks Anda -->
-                                    <div class="mb-3">
-                                        <label for="user_name" class="form-label">Username</label>
-                                        <input type="text" readonly class="form-control"
-                                            value='<?= htmlspecialchars($user['username']); ?>' id="user_name"
-                                            name="user_name" required>
-                                        <input type="hidden" class="form-control" value='<?= $user['user_id']; ?>'
-                                            id="user_id" name="user_id" required>
+                    <div class="container my-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12 col-md-8 col-sm-12">
+                                <div class="card shadow-lg border-0 rounded">
+                                    <div class="card-header bg-success text-white text-center py-4">
+                                        <h5 class="mb-0">💬 Buat Diskusi Baru</h5>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="diskusi" class="form-label">Tuliskan Diskusi</label>
-                                        <textarea class="form-control" id="diskusi" name="diskusi" rows="4"
-                                            required></textarea>
+                                    <div class="card-body p-4">
+                                        <form method="POST" action="">
+                                            <!-- Hidden Input for Product ID -->
+                                            <input type="hidden" name="id_produk" value="<?= $id ?>">
+
+                                            <div class="mb-3">
+                                                <label for="user_name" class="form-label fw-bold">Username</label>
+                                                <input type="text" readonly class="form-control bg-light"
+                                                    value='<?= htmlspecialchars($user['username']); ?>' id="user_name"
+                                                    name="user_name" required>
+                                                <!-- Hidden Input for User ID -->
+                                                <input type="hidden" class="form-control" value='<?= $user['user_id']; ?>'
+                                                    id="user_id" name="user_id" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="diskusi" class="form-label fw-bold">Tuliskan Diskusi</label>
+                                                <textarea class="form-control bg-light" id="diskusi" name="diskusi" rows="4"
+                                                    placeholder="Tulis pertanyaan atau komentar Anda di sini..."
+                                                    required></textarea>
+                                            </div>
+
+                                            <div class="d-grid">
+                                                <button class="btn btn-success btn-lg fw-bold shadow" type="submit">
+                                                    <i class="bi bi-send"></i> Mulai Diskusi
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="d-grid">
-                                        <button class="btn btn-success" type="submit">Mulai Diskusi</button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+
 
                 <?php
                 } else {
@@ -470,13 +506,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <!-- Form untuk Balasan -->
 
                                 <div class="mt-3">
-                                    <h6>Balasan:</h6>
                                     <?php
-                                    $balasan_query = mysqli_query($conn, "SELECT * FROM balasan WHERE diskusi_id = '{$diskusi['id']}' ORDER BY date_created ASC");
+                                    $balasan_query = mysqli_query($conn, "SELECT * FROM balasan WHERE diskusi_id = '{$diskusi['id']}' ORDER BY date_created asc");
                                     if (mysqli_num_rows($balasan_query) > 0) {
                                         while ($balasan = mysqli_fetch_assoc($balasan_query)) {
                                             echo '<div class="border p-2 mb-2">';
-                                            echo "<strong>" . htmlspecialchars($balasan['user_name']) . ": </strong>";
+                                            echo ($balasan['vendor'] == 'ya' ? 'Penjual - ' : '') . "<strong>" . htmlspecialchars($balasan['user_name']) . " : </strong> <br/>";
                                             echo nl2br(htmlspecialchars($balasan['balasan']));
                                             echo "<br><small class='text-muted'>" . date('d M Y, H:i', strtotime($balasan['date_created'])) . "</small>";
                                             echo '</div>';
@@ -486,6 +521,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     }
                                     ?>
                                 </div>
+                                <?php
+                                if (isset($_SESSION['user_id'])) {
+
+                                ?>
+                                    <form action="" method="POST">
+                                        <div class="form-group mb-3">
+                                            <input type="hidden" name="id_diskusi" value="<?= $diskusi['id'] ?>" id="">
+                                            <textarea name="balasan" id="balasan" class="form-control" rows="2"
+                                                required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Kirim</button>
+                                    </form>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     <?php endwhile; ?>
