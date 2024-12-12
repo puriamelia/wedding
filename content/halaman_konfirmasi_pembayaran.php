@@ -47,6 +47,8 @@
                             <h5 class="card-title">Terima Kasih!</h5>
                             <p class="card-text">Pembayaran Anda telah berhasil diproses. Saat ini pembayaran Anda sedang
                                 menunggu konfirmasi dari admin.</p>
+                            <p class="card-text">Mohon diperhatikan, jika pembayaran DP harus dilunasi selambat-lambatnya
+                                H-7 sebelum acara.</p>
                             <p class="text-muted">Silakan cek status pembayaran Anda di menu <strong>Riwayat
                                     Pembayaran</strong>.</p>
                             <a href="index.php" class="tombol">Kembali ke Halaman Utama</a>
@@ -72,6 +74,14 @@
                         <label for="buktiPembayaran" class="form-label">Upload Bukti Pembayaran</label>
                         <input type="file" class="form-control" id="buktiPembayaran" name="bukti_pembayaran"
                             accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <p>Pilih Metode Pembayaran:</p>
+                        <input type="radio" class="form-check-input" required id="full" name="metode_pembayaran" value="ya">
+                        <label for="full">Full</label>
+                        <input type="radio" class="form-check-input" required id="setengah" name="metode_pembayaran"
+                            value="dp">
+                        <label for="setengah">Setengah/DP</label>
                     </div>
                     <div class="mb-3">
                         <label for="catatan" class="form-label">Catatan Pembayaran</label>
@@ -104,6 +114,8 @@ if (isset($_POST['konfirmasi'])) {
     // Ambil data dari form
     $nominal = $_POST['nominal'];
     $catatan = $_POST['catatan'];
+    $metode_pembayaran = $_POST['metode_pembayaran'];
+    // $metode_pembayaran = $_POST['metode_pembayaran'];
     $alamat = $_POST['alamat']; // Alamat dari form
     $status_pembayaran = 'pending'; // Default status pembayaran
     $tanggal = date('Y-m-d'); // Tanggal sekarang
@@ -165,8 +177,8 @@ if (isset($_POST['konfirmasi'])) {
         if (move_uploaded_file($_FILES["bukti_pembayaran"]["tmp_name"], $target_file)) {
             // Simpan data ke database
             $sql = "INSERT INTO konfirmasi_pembayaran 
-                        (kode_pembayaran, nominal, bukti_pembayaran, catatan, alamat, status_pembayaran, tanggal, id_keranjang, date_created, user_id) 
-                        VALUES ('$kode_pembayaran', '$nominal', '$bukti_pembayaran', '$catatan', '$alamat', '$status_pembayaran', '$tanggal', '$id_keranjang', '$date_created', '$kode')";
+                        (kode_pembayaran, nominal, bukti_pembayaran, catatan, alamat, status_pembayaran, tanggal, id_keranjang, date_created, user_id,lunas) 
+                        VALUES ('$kode_pembayaran', '$nominal', '$bukti_pembayaran', '$catatan', '$alamat', '$status_pembayaran', '$tanggal', '$id_keranjang', '$date_created', '$kode','$metode_pembayaran')";
 
             if (mysqli_query($conn, $sql)) {
                 mysqli_query($conn, "UPDATE keranjang set status='konfirmasi' where id='$id_keranjang'");

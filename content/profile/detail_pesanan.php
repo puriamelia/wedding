@@ -69,9 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div class="mb-2">
                             <strong>Status Pembayaran:</strong>
-                            <span
-                                class="badge <?= $pesanan['status_pembayaran'] === 'approved' ? 'bg-success' : 'bg-danger'; ?>">
-                                <?= ucfirst($pesanan['status_pembayaran']); ?>
+                            <span class="badge <?= $pesanan['lunas'] === 'ya' ? 'bg-success' : 'bg-danger'; ?>">
+                                <?= $pesanan['lunas'] === 'ya' ? 'Lunas' : 'Belum Lunas'; ?>
                             </span>
                         </div>
                         <div class="mb-2">
@@ -85,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <!-- Tombol Tandai Selesai -->
-                        <?php if ($pesanan['status_acara'] !== 'ya' && $pesanan['status_pembayaran'] == 'approved'): ?>
+                        <?php if ($pesanan['status_acara'] !== 'ya' && $pesanan['lunas'] == 'ya'): ?>
                             <form method="POST">
                                 <input type="hidden" name="id_item" value="<?= $pesanan['id_item']; ?>">
                                 <button onclick="return confirm('Apakah anda yakin akan menandai acara ini telah selesai?')"

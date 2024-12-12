@@ -14,14 +14,15 @@ $result = mysqli_query($conn, "SELECT
                                 count(*) as total_barang,
                                 sum( item_keranjang.subtotal ) AS total_belanja,
                                 konfirmasi_pembayaran.nominal AS nominal_transfer ,
-                                konfirmasi_pembayaran.tanggal
+                                konfirmasi_pembayaran.tanggal,
+                                konfirmasi_pembayaran.lunas
                             FROM
                                 konfirmasi_pembayaran
                                 INNER JOIN users ON konfirmasi_pembayaran.user_id = users.user_id
                                 INNER JOIN keranjang ON konfirmasi_pembayaran.id_keranjang = keranjang.id
                                 INNER JOIN item_keranjang ON keranjang.id = item_keranjang.keranjang_id 
-                            GROUP BY
-                                konfirmasi_pembayaran.kode_pembayaran order by konfirmasi_pembayaran.id desc");
+                            GROUP BY konfirmasi_pembayaran.kode_pembayaran
+                                 order by konfirmasi_pembayaran.id desc");
 
 ?>
 
@@ -41,9 +42,11 @@ $result = mysqli_query($conn, "SELECT
                         <th>Tanggal Pembayaran</th>
                         <th>Catatan</th>
                         <th>Status Pembayaran</th>
+                        <th>Lunas</th>
                         <th>Total Item</th>
                         <th>Total Belanja</th>
                         <th>Nominal Transfer</th>
+                        <th>Kurang/Lebih</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -73,9 +76,24 @@ $result = mysqli_query($conn, "SELECT
                                 }
                                 ?>
                             </td>
+                            <td>
+                                <?php
+                                if ($pembayaran['lunas'] == 'reject') {
+                                    echo '<span class="badge bg-danger">Reject</span>';
+                                } else if ($pembayaran['lunas'] == 'ya') {
+                                    echo '<span class="badge bg-success">Lunas</span>';
+                                } else if ($pembayaran['lunas'] == 'dp') {
+                                    echo '<span class="badge bg-warning">Down Payment</span>';
+                                } else {
+                                    echo '<span class="badge bg-dark text-light">Belum Bayar</span>';
+                                }
+                                ?>
+
+                            </td>
                             <td class="text-center"><?php echo $pembayaran['total_barang'] ?></td>
-                            <td><?php echo number_format($pembayaran['total_belanja'], 0, ',', '.'); ?></td>
-                            <td><?php echo number_format($pembayaran['nominal_transfer'], 0, ',', '.'); ?></td>
+                            <td><?php echo rupiah($belanja = $pembayaran['total_belanja']); ?></td>
+                            <td><?php echo rupiah($bayar = $pembayaran['nominal_transfer']); ?></td>
+                            <td><?php echo rupiah($bayar - $belanja) ?></td>
                             <td>
                                 <?php if ($pembayaran['status_pembayaran'] == 'pending') { ?>
                                     <a href="index.php?menu=konfirmasi_pembayaran&act=approve&id=<?php echo $pembayaran['kode_pembayaran']; ?>&id_keranjang=<?= $pembayaran['id_keranjang']; ?>"

@@ -99,6 +99,8 @@ if (isset($_GET['act'])) {
         include("./content/profile/riwayat_pesanan.php");
     } else if ($act == 'detail_pesanan') {
         include("./content/profile/detail_pesanan.php");
+    } else if ($act == 'bayar_sisa') {
+        include("./content/profile/bayar_sisa.php");
     }
 } else {
     include("./content/halaman_keranjang.php");

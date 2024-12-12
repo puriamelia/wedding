@@ -15,7 +15,7 @@ if (!$payment) {
     echo "<div class='alert alert-danger text-center'>Invoice tidak ditemukan.</div>";
     exit;
 }
-
+$total_tf  = $payment['nominal'];
 // Query untuk mendapatkan data produk
 $produk_ids = $payment['produk_ids'];
 $sql_products = "
@@ -135,15 +135,25 @@ $result_products = mysqli_query($conn, $sql_products);
         <?php endwhile; ?>
 
         <tr class="total">
-            <td>Total:</td>
-            <td><?= rupiah($total) ?></td>
+            <td>Total yang harus dibayar:</td>
+            <td><?= rupiah($total_belanjar = $total) ?></td>
+        </tr>
+        <tr>
+            <td>Total Sudah di bayar</td>
+            <td><?= rupiah($total_tf) ?></td>
+        </tr>
+        <tr>
+            <td>Sisa Pembayaran</td>
+            <td><?= rupiah($total_tf - $total_belanjar) ?></td>
         </tr>
     </table>
 
+
+
     <br>
     <h5>Status Pembayaran:</h5>
-    <span class="badge <?= $payment['status_pembayaran'] === 'approved' ? 'bg-success' : 'bg-warning' ?>">
-        <?= htmlspecialchars($payment['status_pembayaran'] ?? 'Menunggu Konfirmasi') ?>
+    <span class="badge <?= $payment['lunas'] === 'ya' ? 'bg-success' : 'bg-warning' ?>">
+        <?= $payment['lunas'] === 'ya' ? 'LUNAS' : 'BELUM LUNAS' ?>
     </span>
 
     <br><br>

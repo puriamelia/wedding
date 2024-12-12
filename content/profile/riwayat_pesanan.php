@@ -3,6 +3,7 @@ $sql = "SELECT
 	k.user_id,
 	k.id AS keranjang_id,
 	k.`status`,
+	k.`date_created`,
 	SUM( ik.jumlah ) AS jumlah,
 	ik.harga,
 	SUM( ik.subtotal ) AS total_harga,
@@ -12,7 +13,8 @@ $sql = "SELECT
 	ik.produk_id,
 	products.product_name,
 	products.product_photo,
-	konfirmasi_pembayaran.status_pembayaran 
+	konfirmasi_pembayaran.status_pembayaran ,
+	konfirmasi_pembayaran.lunas
 FROM
 	keranjang AS k
 	INNER JOIN item_keranjang AS ik ON k.id = ik.keranjang_id
@@ -21,7 +23,9 @@ FROM
 WHERE
 	k.user_id = '$user_id' 
 GROUP BY
-	k.id";
+	k.id
+ORDER BY k.id desc
+    ";
 
 $riwayatPesanan = mysqli_query($conn, $sql);
 ?>
@@ -47,15 +51,16 @@ $riwayatPesanan = mysqli_query($conn, $sql);
                                 <strong>Jumlah:</strong> <?= $pesanan['jumlah']; ?><br>
                                 <strong>Harga Satuan:</strong> <?= rupiah($pesanan['harga']); ?><br>
                                 <strong>Total Harga:</strong> <?= rupiah($pesanan['total_harga']); ?><br>
-                                <strong>Status:</strong>
-                                <span class="badge <?= $pesanan['status'] === 'success' ? 'bg-success' : 'bg-warning'; ?>">
-                                    <?= ucfirst($pesanan['status']); ?>
+                                <strong>Lunas:</strong>
+                                <span class="badge <?= $pesanan['lunas'] === 'ya' ? 'bg-success' : 'bg-warning'; ?>">
+                                    <?= $pesanan['lunas'] === 'ya' ? 'LUNAS' : 'Belum Lunas'; ?>
                                 </span> <br>
                                 <strong>Status Pembayaran:</strong>
                                 <span
                                     class="badge <?= $pesanan['status_pembayaran'] === 'approved' ? 'bg-success' : 'bg-warning'; ?>">
                                     <?= ucfirst($pesanan['status_pembayaran']); ?>
-                                </span>
+                                </span> <br>
+                                <small><?= $pesanan['date_created'] ?></small>
                             </p>
                             <a href="index.php?menu=profile&act=detail_pesanan&id=<?= $pesanan['keranjang_id']; ?>"
                                 class="btn btn-primary w-100">
