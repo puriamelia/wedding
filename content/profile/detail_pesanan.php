@@ -16,7 +16,8 @@ $sql = "SELECT
             users.no_hp AS no_hp_pemesan,
             item_keranjang.selesai AS status_acara,
             item_keranjang.id AS id_item,
-            products.product_id, item_keranjang.keranjang_id
+            products.product_id, item_keranjang.keranjang_id,
+            konfirmasi_pembayaran.lunas
         FROM
             item_keranjang
             INNER JOIN products ON item_keranjang.produk_id = products.product_id

@@ -22,7 +22,7 @@ $vendor = mysqli_fetch_assoc($q);
         <div class="row">
             <div class="col-lg-2 col-md-6 col-sm-12">
                 <img src="assets/img/vendor/<?= $vendor['photo'] ?>"
-                    style="border-radius: 50%;width: 100px;float: right;" alt="<?= $vendor['category_name'] ?>">
+                    style="border-radius: 50%;width: 100px;float: right;" alt="<?= $vendor['name'] ?>">
             </div>
             <div class="col-lg-10 col-md-6 col-sm-12">
                 <div class="row">
