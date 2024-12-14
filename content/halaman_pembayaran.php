@@ -30,14 +30,15 @@
                                 p.product_name,
                                 p.product_photo,
                                 p.description,
-                                v.`name`
+                                v.`name`,
+                                i.jam_acara
                             FROM
                                 item_keranjang AS i
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
                             INNER JOIN products AS p ON i.produk_id = p.product_id
                             INNER JOIN vendors AS v ON p.vendor_id = v.vendor_id
                             WHERE (k.user_id='$kode' OR k.session_id='$kode') and i.checkout='ya' and i.success is null
-                            GROUP BY produk_id, i.tanggal_acara
+                            GROUP BY produk_id, i.tanggal_acara,i.jam_acara
                         ");
 
     $total_keranjang = mysqli_num_rows($q);
@@ -53,6 +54,7 @@
                             <tr>
                                 <th>Nama Produk</th>
                                 <th>Vendor</th>
+                                <th>Jam Acara</th>
                                 <th>Tanggal Acara</th>
                                 <th>Jumlah</th>
                                 <th>Harga Satuan</th>
@@ -70,6 +72,7 @@
                                 <tr>
                                     <td><?= htmlspecialchars($row['product_name']) ?></td>
                                     <td><?= htmlspecialchars($row['name']) ?></td>
+                                    <td><?= ($row['jam_acara']) ?></td>
                                     <td><?= formatTanggal($row['tanggal_acara']) ?></td>
                                     <td><?= htmlspecialchars($row['jumlah_total']) ?></td>
                                     <td><?= rupiah($row['harga']) ?></td>

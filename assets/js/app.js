@@ -45,6 +45,8 @@ $(document).ready(function () {
           enable: availableDates, // Hanya tanggal yang ada dalam array data yang bisa dipilih
           disableMobile: true, // Opsional: Menonaktifkan tampilan mobile di Flatpickr
         });
+
+        
       },
       error: function (xhr, status, error) {
         console.error("Error fetching data from API:", error);
@@ -52,9 +54,60 @@ $(document).ready(function () {
       },
     });
 
+    
+    $("#flatpickr").on("change", function () {
+      let tgl = this.value;
+      let idp = getParameterByName("produkid");
+      // URL API Anda
+      const apiURL = "api.php?menu=jam&id=" + idp + "&tanggal=" + tgl;
+    
+      $.ajax({
+        url: apiURL,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+          if (data.success) {
+            const jam = data.data;
+    
+            // Validasi jika jam kosong
+            if (!jam || jam.trim() === "") {
+              $("#pesan").html("Jadwal Tidak Tersedia");
+              $("#timeOptions").html(""); // Bersihkan elemen select jika ada
+              return;
+            }
+
+            $("#hasil_cek").show();
+    
+            $("#pesan").html("Jadwal Tersedia");
+            const times = jam.split(",");
+    
+            // Membuat elemen select dengan opsi
+            let selectHtml = '<select id="timeSelect" name="jam" class="form-control">';
+            selectHtml += `<option value="">Silahkan Pilih Jam</option>`;
+            times.forEach((time) => {
+              selectHtml += `<option value="${time}">${time}</option>`;
+            });
+            selectHtml += "</select>";
+    
+            // Menambahkan elemen select ke dalam div dengan id "timeOptions"
+            $("#timeOptions").html(selectHtml);
+          } else {
+            $("#pesan").html("Jadwal Tidak Tersedia");
+            $("#timeOptions").html(""); // Bersihkan elemen select jika ada
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching data from API:", error);
+          alert("Gagal mengambil data tanggal dari server.");
+        },
+      });
+    });
+    
+
     // Validasi form saat submit
     $("#formPesan").submit(function (e) {
       var tanggal = $("#flatpickr").val();
+      var jam = $("#timeSelect").val(); // Ambil nilai dari select time
 
       // Validasi jika tanggal kosong
       if (!tanggal) {
@@ -62,10 +115,17 @@ $(document).ready(function () {
         e.preventDefault(); // Mencegah form untuk dikirim
         return false;
       }
+
+      // Validasi jika jam kosong
+      if (!jam) {
+        alert("Jam harus dipilih.");
+        e.preventDefault(); // Mencegah form untuk dikirim
+        return false;
+      }
+      
     });
 
-    $("#flatpickr").on("change", function () {
-      $("#hasil_cek").show();
-    });
+    
+
   }
 });

@@ -10,6 +10,7 @@ $sql = "SELECT
             vendors.NAME AS nama_vendor,
             item_keranjang.subtotal,
             item_keranjang.tanggal_acara,
+            item_keranjang.jam_acara,
             konfirmasi_pembayaran.alamat AS alamat_acara,
             konfirmasi_pembayaran.status_pembayaran,
             users.nama AS nama_pemesan,
@@ -65,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <strong>Vendor:</strong> <?= $pesanan['nama_vendor']; ?>
                         </div>
                         <div class="mb-2">
+                            <strong>Jam Acara:</strong> <?= ($pesanan['jam_acara']); ?><br>
                             <strong>Tanggal Acara:</strong> <?= formatTanggal($pesanan['tanggal_acara']); ?><br>
                             <strong>Alamat Acara:</strong> <?= $pesanan['alamat_acara']; ?>
                         </div>

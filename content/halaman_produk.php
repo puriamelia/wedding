@@ -177,11 +177,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
                                     Tanggal
                                     <input type="text" id="flatpickr" name="tanggal" class="form-control" required
                                         placeholder="Cek dan Pilih tanggal"><br>
+                                        <div id="pesan"></div>
+                                        <div id="timeOptions"></div>
 
                                 </div>
                                 <div class="col-5">
                                     <div id="hasil_cek" class="alert alert-success">
-                                        <i class="fa fa-check-circle"></i> Pilihannya tepat! Tanggal ini masih kosong.
+                                        <i class="fa fa-check-circle"></i> Pilihannya tepat! Tanggal dan Jam ini masih kosong.
                                         Jangan tunda lagi,<strong>Pesan sekarang</strong> dan pastikan tanggal ini
                                         jadi
                                         milik Anda!
@@ -218,6 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
 
                             $jumlah = 1;
                             $tgl = mysqli_escape_string($conn, $_POST['tanggal']);
+                            $jam = mysqli_escape_string($conn, $_POST['jam']);
                             $harga = $produk['price'];
                             $subtotal = $jumlah * $harga;
                             $cek_keranjang = mysqli_query($conn, "SELECT * 
@@ -237,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
                                 }
                             }
 
-                            $sql_item = "SELECT id, jumlah FROM item_keranjang WHERE keranjang_id = '$keranjang_id' AND produk_id = '$produk_id' and tanggal_acara='$tgl'";
+                            $sql_item = "SELECT id, jumlah FROM item_keranjang WHERE keranjang_id = '$keranjang_id' AND produk_id = '$produk_id' and tanggal_acara='$tgl' and jam_acara='$jam'";
                             $result_item = mysqli_query($conn, $sql_item);
 
                             if (mysqli_num_rows($result_item) > 0) {
@@ -258,8 +261,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
                                 }
                             } else {
                                 // Jika item belum ada, lakukan insert
-                                $sql_insert = "INSERT INTO item_keranjang (keranjang_id, produk_id, jumlah, harga, subtotal,tanggal_acara) 
-                                               VALUES ('$keranjang_id', '$produk_id', '$jumlah', '$harga', '$subtotal','$tgl')";
+                                $sql_insert = "INSERT INTO item_keranjang (keranjang_id, produk_id, jumlah, harga, subtotal,tanggal_acara,jam_acara) 
+                                               VALUES ('$keranjang_id', '$produk_id', '$jumlah', '$harga', '$subtotal','$tgl','$jam')";
                                 if (mysqli_query($conn, $sql_insert)) {
                                     echo "Produk sudah ditambahkan ke keranjang.";
                                     pindah_halaman("");

@@ -30,7 +30,8 @@
                             p.product_name,
                             p.product_photo,
                             p.description,
-                            v.`name` 
+                            v.`name` ,
+                            i.jam_acara
                         FROM
                             item_keranjang AS i
                             INNER JOIN keranjang AS k ON i.keranjang_id = k.id
@@ -135,6 +136,9 @@
                                                         <div class="col-12 col-md-6">
                                                             <p class="m-0"><strong>Tanggal Acara :
                                                                 </strong> <?= formatTanggal($data['tanggal_acara']) ?>
+                                                            </p>
+                                                            <p class="m-0"><strong>Jam Acara :
+                                                                </strong> <?= ($data['jam_acara']) ?>
                                                             </p>
                                                             <p class="m-0">
                                                                 <strong>Total :</strong> <?= rupiah($sub_total) ?>

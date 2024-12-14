@@ -290,6 +290,7 @@ elseif ($act == 'edit') {
             $vendor_id = $data['vendor_id'];
             $product_id = $data['product_id'];
             $tanggal = $data['tanggal'];
+            $jam_acara = $data['jam_tersedia'];
             $max_events = $data['max_events'];
             $booked_events = $data['booked_events'];
         } else {
@@ -307,6 +308,7 @@ elseif ($act == 'edit') {
         $vendor_id = intval($_POST['vendor_id']);
         $product_id = intval($_POST['product_id']);
         $tanggal = $_POST['tanggal'];
+        $jam_acara = $_POST['jam_acara'];
         $max_events = intval($_POST['max_events']);
         $booked_events = intval($_POST['booked_events']);
 
@@ -319,15 +321,16 @@ elseif ($act == 'edit') {
                 product_id = $product_id, 
                 tanggal = '$tanggal', 
                 max_events = $max_events, 
-                booked_events = $booked_events 
+                booked_events = $booked_events ,
+                jam_tersedia='$jam_acara'
             WHERE id = $id";
             $result = mysqli_query($conn, $updateQuery);
             $message = $result ? "Data berhasil diperbarui!" : "Terjadi kesalahan saat memperbarui data.";
         } else {
             // Tambah data
             $insertQuery = "
-            INSERT INTO produk_tersedia (vendor_id, product_id, tanggal, max_events, booked_events) 
-            VALUES ($vendor_id, $product_id, '$tanggal', $max_events, $booked_events)";
+            INSERT INTO produk_tersedia (vendor_id, product_id, tanggal, max_events, booked_events,jam_tersedia) 
+            VALUES ($vendor_id, $product_id, '$tanggal', $max_events, $booked_events,'$jam_acara')";
             $result = mysqli_query($conn, $insertQuery);
             $message = $result ? "Data berhasil ditambahkan!" : "Terjadi kesalahan saat menambahkan data.";
         }
@@ -343,36 +346,42 @@ elseif ($act == 'edit') {
                 </h4>
             </div>
             <div class="card-body">
-                <form method="POST">
-                    <div class="mb-3">
-                        <label for="vendor_id" class="form-label">Vendor ID</label>
-                        <input type="number" name="vendor_id" readonly id="vendor_id" class="form-control"
-                            value="<?php echo $vendor_id; ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="product_id" class="form-label">Product ID</label>
-                        <input type="number" name="product_id" readonly id="product_id" class="form-control"
-                            value="<?php echo $product_id; ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tanggal" class="form-label">Tanggal</label>
-                        <input type="date" name="tanggal" id="tanggal" class="form-control" value="<?php echo $tanggal; ?>"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="max_events" class="form-label">Max Events</label>
-                        <input type="number" name="max_events" id="max_events" class="form-control"
-                            value="<?php echo $max_events; ?>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="booked_events" class="form-label">Booked Events</label>
-                        <input type="number" name="booked_events" id="booked_events" class="form-control"
-                            value="<?php echo $booked_events; ?>" required>
-                    </div>
-                    <button type="submit" name="simpan_jadwal"
-                        class="btn btn-success"><?php echo $isEdit ? "Update" : "Simpan"; ?></button>
-                    <a href="index.php?menu=produk&act=detail&id=<?= $idp ?>" class="btn btn-secondary">Kembali</a>
-                </form>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="vendor_id" class="form-label">Vendor ID</label>
+                    <input type="number" name="vendor_id" readonly id="vendor_id" class="form-control"
+                        value="<?php echo $vendor_id; ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="product_id" class="form-label">Product ID</label>
+                    <input type="number" name="product_id" readonly id="product_id" class="form-control"
+                        value="<?php echo $product_id; ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal" class="form-label">Tanggal</label>
+                    <input type="date" name="tanggal" id="tanggal" class="form-control" value="<?php echo $tanggal; ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="max_events" class="form-label">Max Events</label>
+                    <input type="number" name="max_events" id="max_events" class="form-control"
+                        value="<?php echo $max_events; ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="booked_events" class="form-label">Booked Events</label>
+                    <input type="number" name="booked_events" id="booked_events" class="form-control"
+                        value="<?php echo $booked_events; ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="jam_acara" class="form-label">Jam Acara</label>
+                    <input type="text" name="jam_acara" id="jam_acara" class="form-control" value="<?=$jam_acara?>"
+                        placeholder="Masukkan jam acara, pisahkan dengan koma. Contoh: 07:00,08:00,09:00" required>
+                        <small>Masukkan jam acara, pisahkan dengan koma. Contoh: 07:00,08:00,09:00</small>
+                </div>
+                <button type="submit" name="simpan_jadwal"
+                    class="btn btn-success"><?php echo $isEdit ? "Update" : "Simpan"; ?></button>
+                <a href="index.php?menu=produk&act=detail&id=<?= $idp ?>" class="btn btn-secondary">Kembali</a>
+            </form>
+
             </div>
         </div>
     </div>
@@ -454,6 +463,7 @@ elseif ($act == 'edit') {
                                 <thead class="bg-light">
                                     <tr>
                                         <th>Tanggal</th>
+                                        <th>Jam</th>
                                         <th>Total Jadwal</th>
                                         <th>Total Dipesan</th>
                                         <th>Tersedia</th>
@@ -464,6 +474,7 @@ elseif ($act == 'edit') {
                                     <?php while ($schedule = mysqli_fetch_assoc($schedule_result)) { ?>
                                         <tr>
                                             <td><?php echo formatTanggal($schedule['tanggal']); ?></td>
+                                            <td><?php echo $schedule['jam_tersedia']; ?></td>
                                             <td><?php echo $schedule['max_events']; ?> Acara</td>
                                             <td><?php echo $schedule['booked_events']; ?> Acara</td>
                                             <td>

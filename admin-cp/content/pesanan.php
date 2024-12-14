@@ -9,6 +9,7 @@ $query = "SELECT
             vendors.name AS nama_vendor,
             item_keranjang.subtotal,
             item_keranjang.tanggal_acara,
+            item_keranjang.jam_acara,
             konfirmasi_pembayaran.alamat AS alamat_acara,
             konfirmasi_pembayaran.status_pembayaran,
             users.nama AS nama_pemesan,
@@ -47,6 +48,7 @@ if (!$result) {
                             <th>Kategori</th>
                             <th>Nama Vendor</th>
                             <th>Subtotal</th>
+                            <th>Jam Acara</th>
                             <th>Tanggal Acara</th>
                             <th>Alamat Acara</th>
                             <th>Status Pembayaran</th>
@@ -67,6 +69,7 @@ if (!$result) {
                                 <td><?php echo htmlspecialchars($row['kategori']); ?></td>
                                 <td><?php echo htmlspecialchars($row['nama_vendor']); ?></td>
                                 <td><?php echo rupiah($row['subtotal']); ?></td>
+                                <td><?php echo (($row['jam_acara'])); ?></td>
                                 <td><?php echo (formatTanggal($row['tanggal_acara'])); ?></td>
                                 <td><?php echo htmlspecialchars($row['alamat_acara']); ?></td>
                                 <td>
