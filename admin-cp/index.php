@@ -308,6 +308,34 @@ $user = mysqli_fetch_assoc($user);
         ]
       });
     });
+
+    
+$(document).ready(function () {
+  $("#jam_acara").on("input", function () {
+      const jamAcaraInput = $(this).val();
+
+      // Regular expression untuk validasi format HH:MM
+      const jamRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+      // Memisahkan input berdasarkan koma
+      const jamList = jamAcaraInput.split(",");
+
+      // Validasi setiap elemen dalam array
+      const isValid = jamList.every(function (jam) {
+          return jamRegex.test(jam.trim());
+      });
+
+      // Memberikan feedback validasi
+      if (!isValid && jamAcaraInput.length > 0) {
+        $("#tmb_simpan").prop('disabled', true);
+          $("#jam_acara_feedback").text("Format jam salah! Gunakan format HH:MM dan pisahkan dengan koma.");
+      } else {
+          $("#jam_acara_feedback").text(""); // Kosongkan feedback jika valid
+          $("#tmb_simpan").prop('disabled', false);
+      }
+  });
+});
+
   </script>
 </body>
 

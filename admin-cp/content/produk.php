@@ -376,8 +376,10 @@ elseif ($act == 'edit') {
                     <input type="text" name="jam_acara" id="jam_acara" class="form-control" value="<?=$jam_acara?>"
                         placeholder="Masukkan jam acara, pisahkan dengan koma. Contoh: 07:00,08:00,09:00" required>
                         <small>Masukkan jam acara, pisahkan dengan koma. Contoh: 07:00,08:00,09:00</small>
+                        <small id="jam_acara_feedback" class="form-text text-muted text-danger"></small>
+
                 </div>
-                <button type="submit" name="simpan_jadwal"
+                <button type="submit" name="simpan_jadwal" id="tmb_simpan"
                     class="btn btn-success"><?php echo $isEdit ? "Update" : "Simpan"; ?></button>
                 <a href="index.php?menu=produk&act=detail&id=<?= $idp ?>" class="btn btn-secondary">Kembali</a>
             </form>
