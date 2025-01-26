@@ -16,7 +16,7 @@ if (isset($_GET['filter'])) {
         <div class="col-12">
             <form action="index.php" method="GET">
                 <input type="hidden" name="menu" value='semua-produk'>
-                <input type="text" name="filter" value="<?= $nama_pencarian ? $nama_pencarian : '' ?>"
+                <input type="text" name="filter" value="<?= isset($_GET['filter']) ? $nama_pencarian : '' ?>"
                     placeholder="Cari sesuatu..." class="search-input" required>
                 <button type="submit" class="search-btn">Cari</button>
             </form>

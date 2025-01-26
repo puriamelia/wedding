@@ -493,7 +493,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
                 <!-- Tampilkan semua diskusi -->
                 <div class="mb-4">
                     <?php
-                    $diskusi_query = mysqli_query($conn, "SELECT * FROM diskusi WHERE id_produk = '$id' ORDER BY date_created DESC");
+                    $diskusi_query = mysqli_query($conn, "SELECT * FROM diskusi WHERE id_produk = '$id' and user_id='$user_id' ORDER BY date_created DESC");
 
 
                     while ($diskusi = mysqli_fetch_assoc($diskusi_query)): ?>
