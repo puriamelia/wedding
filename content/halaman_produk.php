@@ -177,13 +177,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
                                     Tanggal
                                     <input type="text" id="flatpickr" name="tanggal" class="form-control" required
                                         placeholder="Cek dan Pilih tanggal"><br>
-                                        <div id="pesan"></div>
-                                        <div id="timeOptions"></div>
+                                    <div id="pesan"></div>
+                                    <div id="timeOptions"></div>
 
                                 </div>
                                 <div class="col-5">
                                     <div id="hasil_cek" class="alert alert-success">
-                                        <i class="fa fa-check-circle"></i> Pilihannya tepat! Tanggal dan Jam ini masih kosong.
+                                        <i class="fa fa-check-circle"></i> Pilihannya tepat! Tanggal dan Jam ini masih
+                                        kosong.
                                         Jangan tunda lagi,<strong>Pesan sekarang</strong> dan pastikan tanggal ini
                                         jadi
                                         milik Anda!
@@ -493,7 +494,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['diskusi'])) {
                 <!-- Tampilkan semua diskusi -->
                 <div class="mb-4">
                     <?php
-                    $diskusi_query = mysqli_query($conn, "SELECT * FROM diskusi WHERE id_produk = '$id' ORDER BY date_created DESC");
+                    $diskusi_query = mysqli_query($conn, "SELECT * FROM diskusi WHERE id_produk = '$id' and user_id='$user_id' ORDER BY date_created DESC");
 
 
                     while ($diskusi = mysqli_fetch_assoc($diskusi_query)): ?>
