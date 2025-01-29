@@ -51,6 +51,13 @@
                 </a>
             </li>
 
+            <li class="<?php echo ($_GET['menu'] == 'pendapatan') ? 'active' : ''; ?>">
+                <a href="index.php?menu=pendapatan">
+                    <i class="nc-icon nc-paper"></i>
+                    <p>Lapoarn Pendapatan</p>
+                </a>
+            </li>
+
 
         </ul>
     </div>

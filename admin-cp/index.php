@@ -203,13 +203,20 @@ $user = mysqli_fetch_assoc($user);
                 } else  if ($menu == 'pesanan') {
                   include_once("./content/pesanan.php");
                 }
+                else  if ($menu == 'pendapatan') {
+                  include_once("./content/pendapatan.php");
+                }
               } else if ($role == 'vendor') {
                 if ($menu == 'produk') {
                   include_once("./content/produk.php");
                 } else  if ($menu == 'pesanan') {
                   include_once("./content/pesanan.php");
-                } else  if ($menu == 'diskusi') {
+                }
+                 else  if ($menu == 'diskusi') {
                   include_once("./content/diskusi.php");
+                }
+                 else  if ($menu == 'pendapatan') {
+                  include_once("./content/pendapatan.php");
                 }
               }
             }

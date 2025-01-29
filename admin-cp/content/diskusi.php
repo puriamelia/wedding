@@ -178,7 +178,7 @@ if ($act == 'balasan') {
                                     <td><?= $row['total_belum_dibaca'] ?></td>
                                     <td>
                                         <a href="index.php?menu=diskusi&act=balasan&id=<?= $row['id'] ?>"
-                                            class="btn btn-success">Detal dan balas</a>
+                                            class="btn btn-success">Detail dan balas</a>
 
                                     </td>
                                 </tr>
